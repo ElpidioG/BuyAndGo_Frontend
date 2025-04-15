@@ -533,6 +533,7 @@ if (editId && selectedOrder && selectedOrder.proveedor && selectedOrder.proveedo
            <button
              disabled={asientoCreadoParaOrden.includes(item.id)}
            className="btn btn-warning me-2" onClick={() => {
+            // eslint-disable-next-line no-self-compare
     const orden = data.find((item) => item.id === item.id);
     if (orden && orden.idProveedor !== undefined && orden.idProveedor !== null) {
         setIdProveedor(orden.idProveedor.toString()); // Establece el idProveedor antes de abrir el modal
