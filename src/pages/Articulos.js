@@ -36,14 +36,14 @@ const ArticulosComponent = () => {
 
     const handleCloseCreateModal = () => setShowCreateModal(false);
     const handleShowCreateModal = () => setShowCreateModal(true);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     useEffect(() => {
         getData();
         getUnidadesMedidas();
     }, []);
-
+   
     const getData = () => {
-        axios.get('https://localhost:7039/api/Articulos/')
+        axios.get(`${apiUrl}/Articulos`)
             .then((result) => {
                 setData(result.data);
             })
@@ -53,7 +53,7 @@ const ArticulosComponent = () => {
     };
 
     const getUnidadesMedidas = () => {
-        axios.get('https://localhost:7039/api/UnidadesMedidas/')
+        axios.get(`${apiUrl}/UnidadesMedidas`)
             .then((result) => {
                 setUnidadesMedidas(result.data);
             })
@@ -63,7 +63,7 @@ const ArticulosComponent = () => {
     };
 
     const handleSave = () => {
-        const url = 'https://localhost:7039/api/Articulos/';
+        const url = `${apiUrl}/Articulos`;
         const data = {
             descripcion: descripcion,
             marca: marca,
@@ -101,7 +101,7 @@ const ArticulosComponent = () => {
     };
 
     const handleUpdate = () => {
-        const url = `https://localhost:7039/api/Articulos/${editId}`;
+        const url = `${apiUrl}/Articulos/${editId}`;
         const data = {
             id: editId,
             descripcion: editDescripcion,
@@ -134,7 +134,7 @@ const ArticulosComponent = () => {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                const url = `https://localhost:7039/api/Articulos/${id}`;
+                const url = `${apiUrl}/Articulos/${id}`;
                 axios.delete(url)
                     .then((result) => {
                         getData();

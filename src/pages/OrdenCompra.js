@@ -57,7 +57,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
   const [detallesEliminados, setDetallesEliminados] = useState([]);
 
   const [selectedOrder, setSelectedOrder] = useState([]);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
 
     getData();
@@ -69,20 +69,20 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
   
 
   const getProveedores = () => {
-    axios.get('https://localhost:7039/api/Proveedores')
+    axios.get(`${apiUrl}/Proveedores`)
       .then(response => setProveedores(response.data))
       .catch(() => toast.error("Error al obtener proveedores"));
 
   };
   
   const getArticulos = () => {
-    axios.get('https://localhost:7039/api/Articulos')
+    axios.get(`${apiUrl}/Articulos`)
       .then(response => setArticulos(response.data))
       .catch(() => toast.error("Error al obtener artículos"));
   };
   
   const getUnidadesMedida = () => {
-    axios.get('https://localhost:7039/api/UnidadesMedidas')
+    axios.get(`${apiUrl}/UnidadesMedidas`)
       .then(response => setUnidadesMedida(response.data))
       .catch(() => toast.error("Error al obtener unidades de medida"));
   };
@@ -90,7 +90,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
   // Obtener listado de órdenes
   const getData = async () => {
     try {
-      const result = await axios.get('https://localhost:7039/api/OrdenCompras/');
+      const result = await axios.get(`${apiUrl}/OrdenCompras/`);
       setData(result.data);
       // Al cargar las órdenes, también verificamos si tienen asientos creados
       result.data.forEach(orden => {
@@ -105,7 +105,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
   const verificarAsientoExistente = async (idOrdenCompra) => {
     try {
       // Ajusta la URL de tu API para verificar si existe un asiento para la orden
-      const response = await axios.get(`https://localhost:7039/api/AsientosContables/orden/${idOrdenCompra}`);
+      const response = await axios.get(`${apiUrl}/AsientosContables/orden/${idOrdenCompra}`);
       // Si la respuesta es exitosa (status 200) y contiene datos, asumimos que existe un asiento
       if (response.status === 200 && response.data.length > 0) {
         setAsientoCreadoParaOrden(prev => [...prev, idOrdenCompra]);
@@ -189,11 +189,11 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
           estado: estado === "true" // Usar el estado estado
       };
 
-      axios.put(`https://localhost:7039/api/OrdenCompras/${editId}`, orderData)
+      axios.put(`${apiUrl}/OrdenCompras/${editId}`, orderData)
           .then(() => {
               // Eliminar detalles eliminados de la base de datos
               Promise.all(detallesEliminados.map(idDetalleEliminado => {
-                  return axios.delete(`https://localhost:7039/api/DetalleOrdenCompras/${idDetalleEliminado}`);
+                  return axios.delete(`${apiUrl}/DetalleOrdenCompras/${idDetalleEliminado}`);
               }))
               .then(() => {
                   // Limpiar el array detallesEliminados después de la eliminación
@@ -209,7 +209,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
                           idUnidadMedida: detalle.idUnidadMedida,
                           costoTotal: detalle.costoTotal
                       };
-                      return axios.post('https://localhost:7039/api/DetalleOrdenCompras/', [detalleParaEnviar]);
+                      return axios.post(`${apiUrl}/DetalleOrdenCompras/`, [detalleParaEnviar]);
                   }))
                   .then(() => {
                       // Continuar con la actualización de la orden y los detalles restantes
@@ -233,7 +233,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
           });
   }else {
       // Crear una nueva orden de compra
-      axios.post('https://localhost:7039/api/OrdenCompras/', orderData)
+      axios.post(`${apiUrl}/OrdenCompras/`, orderData)
           .then((response) => {
               const ordenCompraId = response.data.id;
 
@@ -248,7 +248,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
 
               console.log("Detalles a enviar:", detallesConOrdenId);
 
-              axios.post('https://localhost:7039/api/DetalleOrdenCompras/', detallesConOrdenId)
+              axios.post(`${apiUrl}/DetalleOrdenCompras/`, detallesConOrdenId)
                   .then(() => {
                       toast.success("Orden y detalles guardados exitosamente");
                       setShowCreateModal(false);
@@ -280,7 +280,7 @@ const handleDelete = (id) => {
     confirmButtonText: 'Sí, eliminar'
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = `https://localhost:7039/api/OrdenCompras/${id}`;
+      const url = `${apiUrl}/OrdenCompras/${id}`;
       axios.delete(url)
         .then(() => {
           getData();
@@ -295,7 +295,7 @@ const handleDelete = (id) => {
 
   // Mostrar los detalles de una orden (se asume que el endpoint GET /api/OrdenCompras/{id} devuelve también los detalles)
   const viewDetails = (idOrdenCompra) => {
-    axios.get(`https://localhost:7039/api/DetalleOrdenCompras/Orden/${idOrdenCompra}`)
+    axios.get(`${apiUrl}/DetalleOrdenCompras/Orden/${idOrdenCompra}`)
       .then((result) => {
         setDetailOrder({ ...detailOrder, detallesOrden: result.data });
         setShowDetailModal(true);
@@ -330,7 +330,7 @@ const handleDelete = (id) => {
   };
 
   const GetDataFromOrder = (idOrdenCompra) => {
-    axios.get(`https://localhost:7039/api/OrdenCompras/${idOrdenCompra}`)
+    axios.get(`${apiUrl}/OrdenCompras/${idOrdenCompra}`)
       .then((result) => {
         setSelectedOrder(result.data)
         
@@ -364,7 +364,7 @@ const handleDelete = (id) => {
       setEstado(orden.estado.toString());
       setDetalles(orden.detalles || []);
   
-      axios.get(`https://localhost:7039/api/DetalleOrdenCompras/Orden/${id}`)
+      axios.get(`${apiUrl}/DetalleOrdenCompras/Orden/${id}`)
         .then((result) => {
           // Verificar los datos recibidos de la API
           console.log("Detalles recibidos de la API:", result.data);
@@ -427,7 +427,7 @@ if (editId && selectedOrder && selectedOrder.proveedor && selectedOrder.proveedo
   };
   const handleCrearAsiento = async (idOrdenCompra) => {
     try {
-      const response = await axios.post(`https://localhost:7039/api/OrdenCompras/${idOrdenCompra}/asiento`);
+      const response = await axios.post(`${apiUrl}/OrdenCompras/${idOrdenCompra}/asiento`);
   
       if (response.status === 200) {
         toast.warn('Asiento contable creado exitosamente. La orden no podrá ser eliminada.');

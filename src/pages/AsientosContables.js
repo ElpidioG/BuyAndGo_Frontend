@@ -16,13 +16,13 @@ const AsientosContables = () => {
     const [filterTipoMovimiento, setFilterTipoMovimiento] = useState('');
     const [filterEstado, setFilterEstado] = useState('');
     const [filterFechaAsiento, setFilterFechaAsiento] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     useEffect(() => {
         getData();
     }, [filterDescripcion, filterTipoMovimiento, filterEstado, filterFechaAsiento]);
 
     const getData = () => {
-        axios.get('https://localhost:7039/api/AsientosContables/')
+        axios.get(`${apiUrl}/AsientosContables/`)
             .then((result) => {
                 let filteredData = result.data;
                 if (filterDescripcion) {
@@ -76,7 +76,7 @@ const AsientosContables = () => {
 
             for (const idOrdenCompra in asientosAgrupados) {
                 const asientos = asientosAgrupados[idOrdenCompra];
-                await axios.post('https://localhost:7039/api/AsientosContables/EnviarAsientos', asientos, {
+                await axios.post(`${apiUrl}/AsientosContables/EnviarAsientos`, asientos, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`

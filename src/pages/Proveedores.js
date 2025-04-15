@@ -27,13 +27,13 @@ const Proveedores = () => {
     const handleShowEditModal = () => setShowEditModal(true);
     const handleCloseCreateModal = () => setShowCreateModal(false);
     const handleShowCreateModal = () => setShowCreateModal(true);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        axios.get('https://localhost:7039/api/Proveedores/')
+        axios.get(`${apiUrl}/Proveedores/`)
             .then((result) => {
                 setData(result.data);
             })
@@ -43,7 +43,7 @@ const Proveedores = () => {
     };
 
     const handleSave = () => {
-        const url = 'https://localhost:7039/api/Proveedores/';
+        const url = `${apiUrl}/Proveedores/`;
         const newData = {
             cedula_Rnc,
             nombreComercial,
@@ -81,7 +81,7 @@ const handleEdit = (id) => {
   
 
     const handleUpdate = () => {
-        const url = `https://localhost:7039/api/Proveedores/${editId}`;
+        const url = `${apiUrl}/Proveedores/${editId}`;
         const updatedData = {
             id: editId,
             cedula_Rnc: editCedula_Rnc,

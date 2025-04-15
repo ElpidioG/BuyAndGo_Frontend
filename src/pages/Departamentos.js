@@ -30,14 +30,16 @@ const Departamentos = () => {
 
     const handleCloseCreateModal = () => setShowCreateModal(false);
     const handleShowCreateModal = () => setShowCreateModal(true);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     // Obtener datos y metodos de la API
     useEffect(() => {
         getData();
     }, [filterDescripcion, filterEstado]); // Re-cargar datos cuando se cambian los filtros
 
     const getData = () => {
-        axios.get('https://localhost:7039/api/Departamentos/')
+      
+      
+        axios.get(`${apiUrl}/Departamentos/`)
             .then((result) => {
                 // Filtrar los datos según los filtros
                 let filteredData = result.data;
@@ -62,7 +64,7 @@ const Departamentos = () => {
 
     // Guardar un nuevo departamento
     const handleSave = () => {
-        const url = 'https://localhost:7039/api/Departamentos/';
+        const url = `${apiUrl}/Departamentos/`;
         const data = {
             descripcion: descripcion,
             estado: estado
@@ -93,7 +95,7 @@ const Departamentos = () => {
 
     // Actualizar un departamento
     const handleUpdate = () => {
-        const url = `https://localhost:7039/api/Departamentos/${editId}`;
+        const url = `${apiUrl}/Departamentos/${editId}`;
         const data = {
             id: editId,
             descripcion: editDescripcion,
@@ -124,7 +126,7 @@ const Departamentos = () => {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                const url = `https://localhost:7039/api/Departamentos/${id}`;
+                const url = `${apiUrl}/Departamentos/${id}`;
                 axios.delete(url)
                     .then((result) => {
                         getData();

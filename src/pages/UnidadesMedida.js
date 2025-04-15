@@ -29,14 +29,14 @@ const UnidadesMedida = () => {
 
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const handleShowCreateModal = () => setShowCreateModal(true);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   // Obtener datos y metodos de la API
   useEffect(() => {
       getData();
   }, []);
 
   const getData = (search = "") => {
-    axios.get(`https://localhost:7039/api/UnidadesMedidas?descripcion=${encodeURIComponent(search)}`)
+    axios.get(`${apiUrl}/UnidadesMedidas?descripcion=${encodeURIComponent(search)}`)
         .then((result) => {
             setData(result.data); // Esto asegurará que la tabla se renderice con los datos filtrados
         })
@@ -68,7 +68,7 @@ const handleSearchReset = () => {
 
   // Guardar un nuevo Unidad de Medida
   const handleSave = () => {
-      const url = 'https://localhost:7039/api/UnidadesMedidas/';
+      const url = `${apiUrl}/UnidadesMedidas/`;
       const data = {
           descripcion: descripcion,
           estado: estado
@@ -99,7 +99,7 @@ const handleSearchReset = () => {
 
   // Actualizar una Unidad de Medida
   const handleUpdate = () => {
-      const url = `https://localhost:7039/api/UnidadesMedidas/${editId}`;
+      const url = `${apiUrl}/UnidadesMedidas/${editId}`;
       const data = {
           id: editId,
           descripcion: editDescripcion,
