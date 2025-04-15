@@ -17,7 +17,7 @@ const OrdenCompra = () => {
   // Estados para listado y modales
   const [data, setData] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [detailOrder, setDetailOrder] = useState(null);
 
@@ -53,9 +53,7 @@ const [unidadesMedida, setUnidadesMedida] = useState([]);
 
   // Estados para editar (solo datos de orden, sin detalle)
   const [editId, setEditId] = useState(null);
-  const [editFecha, setEditFecha] = useState('');
-  const [editIdProveedor, setEditIdProveedor] = useState('');
-  const [editEstado, setEditEstado] = useState('');
+
   const [detallesEliminados, setDetallesEliminados] = useState([]);
 
   const [selectedOrder, setSelectedOrder] = useState([]);

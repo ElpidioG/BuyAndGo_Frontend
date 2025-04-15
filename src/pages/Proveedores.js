@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import * as FaIcons from "react-icons/fa";
+
 
 const Proveedores = () => {
     const [showEditModal, setShowEditModal] = useState(false);
@@ -100,29 +100,6 @@ const handleEdit = (id) => {
             });
     };
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(`https://localhost:7039/api/Proveedores/${id}`)
-                    .then(() => {
-                        getData();
-                        toast.success("Proveedor eliminado exitosamente");
-                    })
-                    .catch(() => {
-                        toast.error("Error al eliminar el proveedor");
-                    });
-            }
-        });
-    };
 
     const clear = () => {
         setcedula_Rnc('');

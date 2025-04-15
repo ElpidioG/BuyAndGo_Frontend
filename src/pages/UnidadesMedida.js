@@ -7,7 +7,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Swal from 'sweetalert2';
+
 import "bootstrap-icons/font/bootstrap-icons.css";
 import * as FaIcons from "react-icons/fa";
 import FiltroBusqueda from "../components/FiltroBusqueda";

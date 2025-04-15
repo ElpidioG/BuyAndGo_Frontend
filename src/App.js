@@ -17,6 +17,7 @@ function App() {
 
     const handleLoginSuccess = () => {
         setIsLoggedIn(true);
+        isLoggedIn = isLoggedIn;
     };
 
     const handleLogout = () => {
